@@ -257,6 +257,7 @@ namespace ArrayLibraryTest
                 Assert.Fail();
             }
 
+            [TestCase(new int[] { }, new int[] { })]
             [TestCase(new int[] { 1 }, new int[] { 1 })]
             [TestCase(new int[] { 5, 2, 3 }, new int[] { 3, 2, 5 })]
             [TestCase(new int[] { 1, 2, 3, 4 }, new int[] { 4, 3, 2, 1 })]
@@ -271,6 +272,92 @@ namespace ArrayLibraryTest
 
                 Assert.AreEqual(_arrayList.ToArray(), expectedArray);
             }
+
+            [TestCase(new int[] { }, true, new int[] { })]
+            [TestCase(new int[] { 1 }, true, new int[] { 1 })]
+            [TestCase(new int[] { 5, 2, 3 }, true, new int[] { 2, 3, 5 })]
+            [TestCase(new int[] { 2, 3, 1, 4 }, true, new int[] { 1, 2, 3, 4 })]
+            [TestCase(new int[] { 5, 3, 2, 1, 4 }, true, new int[] { 1, 2, 3, 4, 5 })]
+            public void SortUp_WhenValidIndex_ShouldReturnSortUpArray(
+               int[] sourceArray,
+               bool ascending,
+               int[] expectedArray)
+            {
+                Initialize(sourceArray);
+
+                _arrayList.Sort(ascending);
+
+                Assert.AreEqual(_arrayList.ToArray(), expectedArray);
+            }
+
+            [TestCase(new int[] { }, false, new int[] { })]
+            [TestCase(new int[] { 1 }, false, new int[] { 1 })]
+            [TestCase(new int[] { 5, 2, 3 }, false, new int[] { 5, 3, 2 })]
+            [TestCase(new int[] { 2, 3, 1, 4 }, false, new int[] { 4, 3, 2, 1 })]
+            [TestCase(new int[] { 5, 3, 2, 1, 4 }, false, new int[] { 5, 4, 3, 2, 1 })]
+            public void SortDown_WhenValidIndex_ShouldReturnSortDownArray(
+                int[] sourceArray,
+                bool ascending,
+                int[] expectedArray)
+            {
+                Initialize(sourceArray);
+
+                _arrayList.Sort(ascending);
+
+                Assert.AreEqual(_arrayList.ToArray(), expectedArray);
+            }
+
+            [TestCase(new int[] { }, 0, new int[] { })]
+            [TestCase(new int[] { 1 }, 0, new int[] { 1 })]
+            [TestCase(new int[] { 5, 2, 3 }, 1, new int[] { 5, 2 })]
+            [TestCase(new int[] { 2, 3, 1, 4 }, 2, new int[] { 2, 3 })]
+            [TestCase(new int[] { 5, 3, 2, 1, 4 }, 3, new int[] { 5, 3, 2 })]
+            public void RemoveCount_WhenValidIndex_ShouldReturnNewArray(
+                int[] sourceArray,
+                int count,
+                int[] expectedArray)
+            {
+                Initialize(sourceArray);
+                _arrayList.Remove(count);
+                //int index = _arrayList.Remove(count);
+
+                Assert.AreEqual(_arrayList.ToArray(), expectedArray);
+                //Assert.AreEqual(index, count);
+            }
+
+            [TestCase(
+                new[] { 1, 2, 3, 4, 5 },
+                2,
+                new[] { 6, 7, 8 },
+                new[] { 1, 2, 6, 7, 8, 3, 4, 5 })]
+            public void AddByIndex_WhenArrayAdded_ShouldAddArrayElementsToIndex(
+                int[] sourceArray,
+                int index,
+                int[] arrayToAdd,
+                int[] expectedArray)
+            {
+                Initialize(sourceArray);
+
+                _arrayList.AddByIndex(index, new ArrayList(arrayToAdd));
+
+                Assert.AreEqual(expectedArray, _arrayList.ToArray());
+            }
+
+        //    [TestCase(
+        //        new[] { 1, 2, 3, 4, 5 },
+        //        new[] { 6, 7, 8 },
+        //        new[] { 6, 7, 8, 1, 2, 3, 4, 5 })]
+        //    public void AddInFront_WhenArrayAdded_ShouldAddArrayElementsToFront(
+        //        int[] sourceArray,
+        //        int[] arrayToAdd,
+        //        int[] expectedArray)
+        //    {
+        //        Initialize(sourceArray);
+
+        //        _arrayList.AddFront(new ArrayList(arrayToAdd));
+
+        //        Assert.AreEqual(expectedArray, _arrayList.ToArray());
+        //    }
         }
 
     }
